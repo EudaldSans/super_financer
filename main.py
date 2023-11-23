@@ -64,11 +64,8 @@ class Month:
 
 
 def summary_by_month(month_df: pd.DataFrame, name: str, start: datetime = None, end: datetime = None):
-    if start is not None:
-        month_df = month_df[_date] >= start
-
-    if end is not None:
-        month_df = month_df[_date] <= end
+    if start is not None: month_df = month_df[month_df[_date] >= start]
+    if end is not None: month_df = month_df[month_df[_date] <= end]
 
     movements_by_month = month_df.groupby(pd.Grouper(key=_date, freq='M'))
 
@@ -115,8 +112,8 @@ def main():
     personal_df = movements_df[personal_mask]
     flat_df = movements_df[~personal_mask]
 
-    summary_by_month(personal_df, 'Personal monthly summary')
-    summary_by_month(flat_df, 'Flat monthly summary')
+    summary_by_month(personal_df, 'Personal monthly summary', start=datetime(2023, 4, 1))
+    summary_by_month(flat_df, 'Flat monthly summary', start=datetime(2023, 4, 1))
 
 
 if __name__ == '__main__':
